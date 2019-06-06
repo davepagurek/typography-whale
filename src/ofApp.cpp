@@ -1,8 +1,13 @@
 #include "ofApp.h"
+#include "utils.hpp"
+
+std::vector<ofMesh> percentMesh;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+  ofTrueTypeFont font;
+  font.load("Lato/Lato-Black.ttf", 72, true, true, true);
+  percentMesh = extrudeCharacter(font, '%', 10);
 }
 
 //--------------------------------------------------------------
@@ -12,7 +17,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+  ofPushMatrix();
+  ofTranslate(60, ofGetHeight()/2);
+  ofRotateXDeg(ofGetFrameNum() * 3);
+  ofTranslate(0, 30);
+  for (auto& mesh : percentMesh) {
+    mesh.draw();
+  }
+  ofPopMatrix();
 }
 
 //--------------------------------------------------------------
