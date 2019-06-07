@@ -1,13 +1,16 @@
 #include "ofApp.h"
 #include "utils.hpp"
+#include "SAO.hpp"
 
 std::vector<ofMesh> percentMesh;
+SAO sao;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
   ofTrueTypeFont font;
   font.load("Lato/Lato-Black.ttf", 72, true, true, true);
-  percentMesh = extrudeCharacter(font, '%', 10);
+  percentMesh = extrudeCharacter(font, '%', 10, 0xFFFFFF);
+  sao.setup();
 }
 
 //--------------------------------------------------------------
@@ -17,14 +20,20 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  ofPushMatrix();
-  ofTranslate(60, ofGetHeight()/2);
-  ofRotateXDeg(ofGetFrameNum() * 3);
-  ofTranslate(0, 30);
-  for (auto& mesh : percentMesh) {
-    mesh.draw();
+  sao.begin();
+  
+  for (auto x : {0, 5, 10}) {
+    ofPushMatrix();
+    ofTranslate(60-x, ofGetHeight()/2, -x*40);
+    ofScale(1 + x/5);
+    ofRotateXDeg(ofGetFrameNum() * 3);
+    ofTranslate(0, 30);
+    for (auto& mesh : percentMesh) {
+      mesh.draw();
+    }
+    ofPopMatrix();
   }
-  ofPopMatrix();
+  sao.end();
 }
 
 //--------------------------------------------------------------

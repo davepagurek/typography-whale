@@ -1,15 +1,19 @@
 #include "utils.hpp"
 
-std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float depth) {
+std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float depth, ofColor color) {
   std::vector<ofMesh> mesh;
   
   // front
   mesh.push_back(font.getCharacterAsPoints(character, true, true).getTessellation());
+  for (auto& _ : mesh.back().getVertices()) {
+    mesh.back().addColor(color);
+  }
   
   // back
   mesh.push_back(mesh.front());
   for (auto& v : mesh.back().getVertices()) {
     v.z += depth;
+    mesh.back().addColor(color);
   }
   
   // Sides
@@ -25,6 +29,22 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
       mesh.back().addVertex(vertices[i] + glm::vec3(0, 0, depth));
       mesh.back().addVertex(vertices[i+1] + glm::vec3(0, 0, depth));
       mesh.back().addVertex(vertices[i+1]);
+      
+      for (int j = 0; j < 6; ++j) {
+        mesh.back().addColor(color);
+      }
+    }
+    
+    mesh.back().addVertex(vertices.front());
+    mesh.back().addVertex(vertices.back());
+    mesh.back().addVertex(vertices.front() + glm::vec3(0, 0, depth));
+    
+    mesh.back().addVertex(vertices.front() + glm::vec3(0, 0, depth));
+    mesh.back().addVertex(vertices.back() + glm::vec3(0, 0, depth));
+    mesh.back().addVertex(vertices.back());
+    
+    for (int j = 0; j < 6; ++j) {
+      mesh.back().addColor(color);
     }
   }
   
