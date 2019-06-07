@@ -95,13 +95,13 @@ void main() {
   occlusion = 1.0 - occlusion / (4.0 * float(NUM_SAMPLES));
   
   occlusion = clamp(pow(occlusion, 1.0 + INTENSITY), 0.0, 1.0);
-  if (abs(dFdx(worldSpaceOrigin.z)) < 0.5) {
+  float rawZ = texture(depth, uv).x;
+  if (abs(dFdx(rawZ)) < 0.5) {
     occlusion -= dFdx(occlusion) * (float(pixel.x & 1) - 0.5);
   }
-  if (abs(dFdy(worldSpaceOrigin.z)) < 0.5) {
+  if (abs(dFdy(rawZ)) < 0.5) {
     occlusion -= dFdy(occlusion) * (float(pixel.y & 1) - 0.5);
   }
   
   fragColor = vec4(occlusion, occlusion, occlusion, 1.0);
-//  fragColor = texture(depth, uv);
 }

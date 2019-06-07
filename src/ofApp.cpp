@@ -4,13 +4,18 @@
 
 std::vector<ofMesh> percentMesh;
 SAO sao;
+ofPolyline spine;
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
   ofTrueTypeFont font;
   font.load("Lato/Lato-Black.ttf", 72, true, true, true);
-  percentMesh = extrudeCharacter(font, '%', 10, 0xFFFFFF);
+  percentMesh = extrudeCharacter(font, '&', 10, 0xFFFFFF);
   sao.setup();
+  
+//  ofPath spinePath;
+//  spinePath.moveTo(glm::vec3(-200, 100, 0));
+//  spinePath.bezierTo(glm::vec3(0, 100, -20), glm::vec3(50, 30, -20), glm::vec3(200, 0, -100));
 }
 
 //--------------------------------------------------------------
@@ -22,17 +27,55 @@ void ofApp::update(){
 void ofApp::draw(){
   sao.begin();
   
-  for (auto x : {0, 5, 10}) {
+  constexpr float warpScale = 100.0f;
+  
+  spine.clear();
+  spine.addVertex(glm::vec3(-200, 100, 0));
+  spine.bezierTo(
+    glm::vec3(0, 100, -20),
+    glm::vec3(50, 30, -20),
+    glm::vec3(200, 0, -100));
+//  spine = spine.getResampledByCount(15);
+  spine = spine.getResampledBySpacing(20);
+  
+  ofTranslate(ofGetWidth()/2, ofGetHeight()/2, 0);
+  ofRotateYDeg(ofGetFrameNum());
+  for (int i = 0; i < spine.size(); ++i) {
     ofPushMatrix();
-    ofTranslate(60-x, ofGetHeight()/2, -x*40);
-    ofScale(1 + x/5);
-    ofRotateXDeg(ofGetFrameNum() * 3);
-    ofTranslate(0, 30);
+    ofTranslate(warp(spine[i], warpScale));
+    
+    float t = float(i)/float(spine.size());
+    glm::vec3 tangent;
+    if (i == 0) {
+      tangent = spine.getTangentAtIndex(1);
+    } else if (i == spine.size() - 1) {
+      tangent = spine.getTangentAtIndex(i - 1);
+    } else {
+      tangent = spine.getTangentAtIndex(i);
+    }
+    glm::quat r = glm::rotation(glm::vec3(0, 0, 1), tangent);
+    ofMultMatrix(glm::toMat4(r));
+    
+    float s = 0.25 - 4.0 * t * (t - 1.0);
+    ofScale(s, s, 1);
+    
     for (auto& mesh : percentMesh) {
       mesh.draw();
     }
     ofPopMatrix();
   }
+  
+//  for (auto x : {0, 5, 10}) {
+//    ofPushMatrix();
+//    ofTranslate(60-x, ofGetHeight()/2, -x*40);
+//    ofScale(1 + x/5);
+//    ofRotateXDeg(ofGetFrameNum() * 3);
+//    ofTranslate(0, 30);
+//    for (auto& mesh : percentMesh) {
+//      mesh.draw();
+//    }
+//    ofPopMatrix();
+//  }
   sao.end();
 }
 

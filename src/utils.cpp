@@ -5,7 +5,8 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
   
   // front
   mesh.push_back(font.getCharacterAsPoints(character, true, true).getTessellation());
-  for (auto& _ : mesh.back().getVertices()) {
+  for (auto& v : mesh.back().getVertices()) {
+    v.y *= -1;
     mesh.back().addColor(color);
   }
   
@@ -21,6 +22,10 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
   for (auto& line : outline) {
     mesh.emplace_back();
     auto vertices = line.getVertices();
+    for (auto& v : vertices) {
+      v.y *= -1;
+    }
+    
     for (int i = 0; i < vertices.size() - 1; ++i) {
       mesh.back().addVertex(vertices[i]);
       mesh.back().addVertex(vertices[i+1]);
@@ -49,4 +54,23 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
   }
   
   return mesh;
+}
+
+float jitter(float mixAmount, float offset) {
+  float amount = 0.0;
+  float scale = 1.0;
+  offset += ofGetFrameNum() * 0.00005;
+  for (int power = 0; power < 3; power++) {
+    amount += sin((offset * 1234.0 + mixAmount) * scale) / scale;
+    scale *= 2.0;
+  }
+  amount *= 0.09;
+  // ramp down to 0 at 0 and 1
+//  amount *= -4.0 * mixAmount * (mixAmount - 1.0);
+  return amount;
+}
+
+glm::vec3 warp(glm::vec3 v, float scale) {
+  constexpr float s = 100.0;
+  return v + scale * glm::vec3(jitter(v.x/s, 0.0), jitter(v.y/s, 0.2), jitter(v.z/s, 0.5));
 }
