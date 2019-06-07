@@ -4,7 +4,7 @@
 
 class SAO {
   ofShader deferred, occlusion, composite;
-  ofFbo deferredFbo;
+  ofFbo deferredFbo, occlusionFbo;
   
 public:
   void setup();
