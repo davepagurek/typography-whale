@@ -542,7 +542,6 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				D3FDDE8922A9EEEF00AB3DB8 /* composite.frag */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -555,6 +554,7 @@
 				D3FDDE8522A951E600AB3DB8 /* occlusion.vert */,
 				D3FDDE8622A9520600AB3DB8 /* occlusion.frag */,
 				D3FDDE8722A9ED4200AB3DB8 /* composite.vert */,
+				D3FDDE8922A9EEEF00AB3DB8 /* composite.frag */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

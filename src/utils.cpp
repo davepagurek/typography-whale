@@ -59,7 +59,7 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
 float jitter(float mixAmount, float offset) {
   float amount = 0.0;
   float scale = 1.0;
-  offset += ofGetFrameNum() * 0.00005;
+  offset += ofGetFrameNum() * 0.00002;
   for (int power = 0; power < 3; power++) {
     amount += sin((offset * 1234.0 + mixAmount) * scale) / scale;
     scale *= 2.0;

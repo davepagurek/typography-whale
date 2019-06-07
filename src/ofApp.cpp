@@ -10,8 +10,16 @@ ofPolyline spine;
 void ofApp::setup() {
   ofTrueTypeFont font;
   font.load("Lato/Lato-Black.ttf", 72, true, true, true);
-  percentMesh = extrudeCharacter(font, '&', 10, 0xFFFFFF);
+  percentMesh = extrudeCharacter(font, '%', 10, 0xFFFFFF);
   sao.setup();
+  
+  spine.clear();
+  spine.addVertex(glm::vec3(-200, 100, 0));
+  spine.bezierTo(
+    glm::vec3(0, 100, -20),
+    glm::vec3(50, 30, -20),
+    glm::vec3(200, 0, -100));
+  spine = spine.getResampledBySpacing(20);
   
 //  ofPath spinePath;
 //  spinePath.moveTo(glm::vec3(-200, 100, 0));
@@ -27,19 +35,10 @@ void ofApp::update(){
 void ofApp::draw(){
   sao.begin();
   
-  constexpr float warpScale = 100.0f;
+  constexpr float warpScale = 150.0f;
   
-  spine.clear();
-  spine.addVertex(glm::vec3(-200, 100, 0));
-  spine.bezierTo(
-    glm::vec3(0, 100, -20),
-    glm::vec3(50, 30, -20),
-    glm::vec3(200, 0, -100));
-//  spine = spine.getResampledByCount(15);
-  spine = spine.getResampledBySpacing(20);
-  
-  ofTranslate(ofGetWidth()/2, ofGetHeight()/2, 0);
-  ofRotateYDeg(ofGetFrameNum());
+  ofTranslate(ofGetWidth()/2, ofGetHeight()/2, -15);
+  ofRotateYDeg(-50 - 40 * sin(ofGetFrameNum() * 0.005));
   for (int i = 0; i < spine.size(); ++i) {
     ofPushMatrix();
     ofTranslate(warp(spine[i], warpScale));

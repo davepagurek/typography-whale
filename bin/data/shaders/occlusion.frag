@@ -10,7 +10,7 @@ const int NUM_SAMPLES = 17;
 const int NUM_SPIRAL_TURNS = 7;
 const float EPSILON = 0.1;
 const float BIAS = 0.2;
-const float WORLD_SPACE_RADIUS = 40.0; // radius of influence in world space
+const float WORLD_SPACE_RADIUS = 20.0; // radius of influence in world space
 const float INTENSITY = 20.0;
 const float M_PI = 3.1415926535897932384626433832795;
 
