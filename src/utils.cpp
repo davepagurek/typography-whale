@@ -3,10 +3,14 @@
 std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float depth, ofColor color) {
   std::vector<ofMesh> mesh;
   
+  ofRectangle box = font.getStringBoundingBox(std::string("") + character, 0, 0);
+  
   // front
   mesh.push_back(font.getCharacterAsPoints(character, true, true).getTessellation());
   for (auto& v : mesh.back().getVertices()) {
     v.y *= -1;
+    v.y -= box.getHeight()/2;
+    v.x -= box.getWidth()/2;
     mesh.back().addColor(color);
   }
   
@@ -24,6 +28,8 @@ std::vector<ofMesh> extrudeCharacter(ofTrueTypeFont& font, char character, float
     auto vertices = line.getVertices();
     for (auto& v : vertices) {
       v.y *= -1;
+      v.y -= box.getHeight()/2;
+      v.x -= box.getWidth()/2;
     }
     
     for (int i = 0; i < vertices.size() - 1; ++i) {
