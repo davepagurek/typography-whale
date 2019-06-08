@@ -2,9 +2,14 @@
 #include "utils.hpp"
 #include "SAO.hpp"
 
+#include "ofxSimpleScreenRecorder.h"
+
 std::vector<ofMesh> spineMesh, ribMesh, armMesh, skullMesh, faceMesh, jawMesh;
 SAO sao;
 ofPolyline spine;
+ofxSimpleScreenRecorder recorder;
+
+bool record = false;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -26,6 +31,11 @@ void ofApp::setup() {
     glm::vec3(250, 0, -100));
   spine = spine.getResampledBySpacing(20);
   
+  if (record) {
+    recorder.setup(ofGetWidth(), ofGetHeight(), "");
+    recorder.start();
+  }
+  
 //  ofPath spinePath;
 //  spinePath.moveTo(glm::vec3(-200, 100, 0));
 //  spinePath.bezierTo(glm::vec3(0, 100, -20), glm::vec3(50, 30, -20), glm::vec3(200, 0, -100));
@@ -38,6 +48,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+  if (record) recorder.begin();
   sao.begin();
   
   constexpr float warpScale = 150.0f;
@@ -148,11 +159,14 @@ void ofApp::draw(){
   }
 
   sao.end();
+  if (record) recorder.end();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+  if (record) {
+    recorder.stop();
+  }
 }
 
 //--------------------------------------------------------------

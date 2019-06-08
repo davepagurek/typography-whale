@@ -26,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D346C82922AC16D600F73781 /* ofxSimpleScreenRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSimpleScreenRecorder.h; sourceTree = "<group>"; };
 		D3FDDE7D22A94C6500AB3DB8 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
 		D3FDDE7E22A94C6500AB3DB8 /* utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = utils.hpp; sourceTree = "<group>"; };
 		D3FDDE8022A94D0300AB3DB8 /* SAO.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SAO.cpp; sourceTree = "<group>"; };
@@ -555,6 +556,7 @@
 				D3FDDE8622A9520600AB3DB8 /* occlusion.frag */,
 				D3FDDE8722A9ED4200AB3DB8 /* composite.vert */,
 				D3FDDE8922A9EEEF00AB3DB8 /* composite.frag */,
+				D346C82922AC16D600F73781 /* ofxSimpleScreenRecorder.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
